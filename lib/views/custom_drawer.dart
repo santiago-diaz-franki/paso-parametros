@@ -82,8 +82,8 @@ class CustomDrawer extends StatelessWidget {
           ),
           ListTile(
             leading: const Icon(Icons.schedule),
-            title: const Text('Future'),
-            onTap: () => context.goNamed('future'),
+            title: const Text('Lista de Estudiantes'),
+            onTap: () => context.goNamed('list_students'),
           ),
           //!TIMER
           ListTile(

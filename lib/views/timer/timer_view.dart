@@ -10,37 +10,64 @@ class TimerView extends StatefulWidget {
 }
 
 class _TimerViewState extends State<TimerView> {
-  //late indica que la variable será inicializada después
-  //esto se usa con el fin de que la variable no sea nula
   late Timer _timer;
   int _contador = 0;
-  int _indiceSeleccionado = 0; //indice seleccionado en el BottomNavigationBar
+  int _indiceSeleccionado = 0;
+  bool _isPausado = false; // Indica si el temporizador está pausado
+  bool _isIniciado = false; // Indica si el temporizador está iniciado
 
   @override
-  //!initState() se llama una vez que el widget ha sido creado
-  //!y se puede utilizar para inicializar datos que solo deben hacerse una vez.
   void initState() {
     super.initState();
-    _iniciarTemporizador();
+    // No iniciamos el temporizador aquí, ya que queremos que el usuario lo inicie
   }
 
   //! Método para iniciar el temporizador
   void _iniciarTemporizador() {
-    //timer.periodic() ejecuta una función cada cierto tiempo
-    //en este caso cada segundo
-    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
-      setState(() {
-        _contador++;
+    if (!_isIniciado) {
+      // Si el temporizador no está iniciado, comenzamos el temporizador
+      _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+        setState(() {
+          _contador++;
+        });
       });
+      setState(() {
+        _isIniciado = true; // Marcamos el temporizador como iniciado
+        _isPausado = false; // Aseguramos que no esté pausado
+      });
+    } else if (_isPausado) {
+      // Si el temporizador está pausado, reanudamos el temporizador
+      _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+        setState(() {
+          _contador++;
+        });
+      });
+      setState(() {
+        _isPausado = false; // Lo reanudamos
+      });
+    }
+  }
+
+  //! Método para pausar el temporizador
+  void _pausarTemporizador() {
+    _timer.cancel();
+    setState(() {
+      _isPausado = true; // Marcamos el temporizador como pausado
+    });
+  }
+
+  //! Método para reiniciar el contador
+  void _reiniciarContador() {
+    _timer.cancel();
+    setState(() {
+      _contador = 0; // Reinicia el contador
+      _isPausado = false; // Restablece el estado de pausa
+      _isIniciado = false; // Restablece el estado de iniciado
     });
   }
 
   @override
-  //! dispose() se llama cuando el widget se elimina del árbol de widgets
-  //! y se puede utilizar para liberar recursos o cancelar temporizadores.
   void dispose() {
-    //! _timer.cancel() cancela el temporizador, requerido siempre que se use Timer
-    //! evita fugas de memoria
     _timer.cancel();
     super.dispose();
   }
@@ -54,7 +81,6 @@ class _TimerViewState extends State<TimerView> {
 
   @override
   Widget build(BuildContext context) {
-    //*Lista de Widgets para las páginas
     List<Widget> paginas = [
       Center(
         child: Text(
@@ -77,6 +103,25 @@ class _TimerViewState extends State<TimerView> {
       body: Column(
         children: [
           Expanded(child: paginas[_indiceSeleccionado]),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              ElevatedButton(
+                onPressed: !_isPausado && _isIniciado ? null : _iniciarTemporizador, // Solo habilita si no está pausado e iniciado
+                child: const Text("Iniciar"),
+              ),
+              const SizedBox(width: 16),
+              ElevatedButton(
+                onPressed: _isPausado || !_isIniciado ? null : _pausarTemporizador, // Solo habilita si está en marcha
+                child: const Text("Pausar"),
+              ),
+              const SizedBox(width: 16),
+              ElevatedButton(
+                onPressed: _reiniciarContador, // Siempre habilitado
+                child: const Text("Reiniciar"),
+              ),
+            ],
+          ),
           BottomNavigationBar(
             currentIndex: _indiceSeleccionado,
             onTap: _itemSeleccionado,

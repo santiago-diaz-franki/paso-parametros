@@ -1,22 +1,19 @@
 import 'dart:async';
 import 'dart:isolate';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:hola_mundo/views/base_view.dart';
 
-class IsolateView extends StatefulWidget {
-  const IsolateView({super.key});
+class TareaPesadaView extends StatefulWidget {
+  const TareaPesadaView({super.key});
 
   @override
-  State<IsolateView> createState() => _IsolateViewState();
+  State<TareaPesadaView> createState() => _TareaPesadaViewState();
 }
 
-class _IsolateViewState extends State<IsolateView> {
+class _TareaPesadaViewState extends State<TareaPesadaView> {
   String resultado = "Presiona el botón para ejecutar";
 
   //!Función que ejecuta la tarea pesada en un Isolate
-  //es Future<void> porque se ejecuta en un hilo secundario
-  //Future se usa para ejecutar tareas asincronas
   Future<void> isolateTask() async {
     final receivePort = ReceivePort(); // Buzón para recibir datos
 
@@ -35,20 +32,21 @@ class _IsolateViewState extends State<IsolateView> {
     // Espera la respuesta del isolate
     final result = await response.first as String;
 
-    //*Actualiza la UI con el resultado
-    //mounted es una propiedad de State que indica si el widget está montado en el árbol de widgets
-    //mounted es true si el widget está montado en el árbol de widgets
-    //mounted es false si el widget no está montado en el árbol de widgets
+    //*Verificamos si el widget sigue montado antes de actualizar la UI
     if (!mounted) return;
+
+    // Mostrar el resultado en un SnackBar
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text(result)),
+    );
+
+    // O si prefieres actualizar la UI con setState (pero usaremos el SnackBar en lugar de un Text)
     setState(() {
       resultado = result;
     });
   }
 
   //!simulacionTareaPesada es una función que simula una tarea pesada en un Isolate
-  //*es static porque no se necesita una instancia de la clase para ejecutarla
-  // una funcion static pertenece a la clase y no a la instancia
-  // *SendPort es un canal de comunicación unidireccional que se puede usar para enviar mensajes a un Isolate.
   static void _simulacionTareaPesada(SendPort sendPort) async {
     final port = ReceivePort(); // Buzón interno del isolate
     sendPort.send(port.sendPort); // Se lo enviamos al hilo principal
@@ -58,15 +56,19 @@ class _IsolateViewState extends State<IsolateView> {
       final puertoReceptor = message[1] as SendPort; // Canal para responder
 
       int counter = 0;
-      for (int i = 1; i <= 10000; i++) {
+      // Simula una tarea pesada (Suma de 1 a 2 millones) con un retardo artificial
+      for (int i = 1; i <= 2000000; i++) {
         counter += i;
-        if (kDebugMode) {
-          print("Isolate contando: $i");
+
+        // Agregamos un retardo para hacer la tarea más visible
+        if (i % 50000 == 0) {
+          await Future.delayed(const Duration(milliseconds: 1)); // Retardo artificial
         }
       }
 
+      // Enviar el resultado al hilo principal
       puertoReceptor.send(
-        "Tarea completada. Suma del 1 al 5: $counter. -  Mensaje recibido: '$data'",
+        "Tarea completada. Suma del 1 al 2 millones: $counter. -  Mensaje recibido: '$data'",
       );
       port.close(); // Cierra el puerto
       Isolate.exit(); // Finaliza el Isolate
@@ -79,7 +81,6 @@ class _IsolateViewState extends State<IsolateView> {
       title: "Demo de Isolate",
       body: Center(
         child: Padding(
-          //Padding es un widget que añade espacio alrededor de su hijo.
           padding: const EdgeInsets.all(16.0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -88,7 +89,7 @@ class _IsolateViewState extends State<IsolateView> {
               const SizedBox(height: 20),
               ElevatedButton(
                 onPressed: isolateTask,
-                child: const Text("Ejecutar tarea en segundo plano"),
+                child: const Text("Ejecutar suma de 1 a 2 millones"),
               ),
             ],
           ),

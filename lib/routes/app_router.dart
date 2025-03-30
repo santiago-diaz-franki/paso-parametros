@@ -6,8 +6,8 @@ import 'package:hola_mundo/views/paso_parametros/paso_parametros_screen.dart';
 import 'package:hola_mundo/views/profile_view.dart';
 import 'package:hola_mundo/views/settings_view.dart';
 import 'package:hola_mundo/views/timer/timer_view.dart';
-import 'package:hola_mundo/views/isolate/isolate_view.dart';
-import 'package:hola_mundo/views/future/future_view.dart';
+import 'package:hola_mundo/views/tarea_pesada/tarea_pesada_view.dart';
+import 'package:hola_mundo/views/list_students/list_students_view.dart';
 
 final GoRouter appRouter = GoRouter(
   routes: [
@@ -49,9 +49,9 @@ final GoRouter appRouter = GoRouter(
     ),
     //!Ruta para el demo de Future
     GoRoute(
-      path: '/future',
-      name: 'future',
-      builder: (context, state) => const FutureView(),
+      path: '/list_students',
+      name: 'list_students',
+      builder: (context, state) => const ListStudentsView(),
     ),
     //!Ruta para el demo de Timer
     GoRoute(
@@ -64,7 +64,7 @@ final GoRouter appRouter = GoRouter(
     GoRoute(
       path: '/isolate', //*ruta para el demo de Isolate
       name: 'isolate', //*nombre de la ruta
-      builder: (context, state) => const IsolateView(),
+      builder: (context, state) => const TareaPesadaView(),
     ),
   ],
 );
