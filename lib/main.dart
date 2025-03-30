@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:hola_mundo/routes/app_router.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 import 'themes/app_theme.dart'; // Importa el tema
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized(); //! Importante para que funcione el dotenv, inicializa el widget
+  await dotenv.load(
+    fileName: ".env",
+  ); //!carga el archivo .env en la raiz del proyecto
   runApp(const MyApp());
 }
 

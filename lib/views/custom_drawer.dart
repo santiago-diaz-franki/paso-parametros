@@ -97,10 +97,17 @@ class CustomDrawer extends StatelessWidget {
           //!ISOLATE
           ListTile(
             leading: const Icon(Icons.memory),
-            title: const Text('Isolate'),
+            title: const Text('Tarea Pesada'),
             onTap: () {
               //Navega a la ruta con nombre 'isolate'
-              context.goNamed('isolate');
+              context.goNamed('tarea_pesada');
+            },
+          ),
+          ListTile(
+            leading: Icon(Icons.catching_pokemon),
+            title: Text('Pokemones'),
+            onTap: () {
+              context.goNamed('pokemons');
             },
           ),
         ],

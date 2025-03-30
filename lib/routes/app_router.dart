@@ -8,6 +8,8 @@ import 'package:hola_mundo/views/settings_view.dart';
 import 'package:hola_mundo/views/timer/timer_view.dart';
 import 'package:hola_mundo/views/tarea_pesada/tarea_pesada_view.dart';
 import 'package:hola_mundo/views/list_students/list_students_view.dart';
+import 'package:hola_mundo/views/pokemons/pokemon_detail_view.dart';
+import 'package:hola_mundo/views/pokemons/pokemon_list_view.dart';
 
 final GoRouter appRouter = GoRouter(
   routes: [
@@ -62,9 +64,22 @@ final GoRouter appRouter = GoRouter(
 
     //!Ruta para el demo de Isolate
     GoRoute(
-      path: '/isolate', //*ruta para el demo de Isolate
-      name: 'isolate', //*nombre de la ruta
+      path: '/tarea_pesada', //ruta de la vista
+      name: 'tarea_pesada', //nombre de la
       builder: (context, state) => const TareaPesadaView(),
+    ),
+    //!Rutas para el manejo de Pokémon
+    GoRoute(
+      path: '/pokemon',
+      name: 'pokemons',
+      builder: (context, state) => const PokemonListView(),
+    ),
+    GoRoute(
+      path: '/pokemon/:name',
+      name: 'pokemonDetail',
+      builder:
+          (context, state) =>
+              PokemonDetailView(name: state.pathParameters['name']!),
     ),
   ],
 );
