@@ -8,8 +8,8 @@ import 'package:hola_mundo/views/settings_view.dart';
 import 'package:hola_mundo/views/timer/timer_view.dart';
 import 'package:hola_mundo/views/tarea_pesada/tarea_pesada_view.dart';
 import 'package:hola_mundo/views/list_students/list_students_view.dart';
-import 'package:hola_mundo/views/pokemons/pokemon_detail_view.dart';
-import 'package:hola_mundo/views/pokemons/pokemon_list_view.dart';
+import 'package:hola_mundo/views/chiste/chiste_detail_view.dart';
+import 'package:hola_mundo/views/chiste/chiste_list_view.dart';
 
 final GoRouter appRouter = GoRouter(
   routes: [
@@ -69,17 +69,19 @@ final GoRouter appRouter = GoRouter(
       builder: (context, state) => const TareaPesadaView(),
     ),
     //!Rutas para el manejo de Pokémon
+   // Rutas para el manejo de chistes
     GoRoute(
-      path: '/pokemon',
-      name: 'pokemons',
-      builder: (context, state) => const PokemonListView(),
+      path: '/chiste',
+      name: 'chiste',
+      builder: (context, state) => const ChisteListView(),
     ),
     GoRoute(
-      path: '/pokemon/:name',
-      name: 'pokemonDetail',
-      builder:
-          (context, state) =>
-              PokemonDetailView(name: state.pathParameters['name']!),
+      path: '/chiste/:id',
+      name: 'chisteDetail',
+      builder: (context, state) {
+        final id = state.pathParameters['id']!;
+        return ChisteDetailView(id: id);
+      },
     ),
   ],
 );

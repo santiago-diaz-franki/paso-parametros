@@ -105,9 +105,9 @@ class CustomDrawer extends StatelessWidget {
           ),
           ListTile(
             leading: Icon(Icons.catching_pokemon),
-            title: Text('Pokemones'),
+            title: Text('Chistes de Chuck Norris'),
             onTap: () {
-              context.goNamed('pokemons');
+              context.goNamed('chiste');
             },
           ),
         ],
