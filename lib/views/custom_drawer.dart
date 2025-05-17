@@ -110,6 +110,14 @@ class CustomDrawer extends StatelessWidget {
               context.goNamed('chiste');
             },
           ),
+          ListTile(
+            leading: Icon(Icons.business),
+            title: Text('Establecimientos'),
+            onTap: () {
+              // Navegación con GoRouter
+              context.push('/establecimientos');
+            },
+          ),
         ],
       ),
     );

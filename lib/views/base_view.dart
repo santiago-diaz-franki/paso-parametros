@@ -4,8 +4,18 @@ import 'custom_drawer.dart'; // Importa el Drawer personalizado
 class BaseView extends StatelessWidget {
   final String title;
   final Widget body;
+  final int? initialIndex;
+  final int? length;
+  final FloatingActionButton? floatingActionButton;
 
-  const BaseView({super.key, required this.title, required this.body});
+  const BaseView({
+    super.key,
+    required this.title,
+    required this.body,
+    this.initialIndex,
+    this.length,
+    this.floatingActionButton,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -13,6 +23,7 @@ class BaseView extends StatelessWidget {
       appBar: AppBar(title: Text(title)),
       drawer: const CustomDrawer(), // Drawer persistente para todas las vistas
       body: body,
+      floatingActionButton: floatingActionButton,
     );
   }
 }

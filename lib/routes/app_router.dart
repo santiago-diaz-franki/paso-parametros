@@ -1,5 +1,8 @@
 import 'package:go_router/go_router.dart';
 import 'package:hola_mundo/views/ciclo_vida/ciclo_vida_screen.dart';
+import 'package:hola_mundo/views/establecimientos/establecimiento_create_views.dart';
+import 'package:hola_mundo/views/establecimientos/establecimiento_edit_view.dart';
+import 'package:hola_mundo/views/establecimientos/establecimiento_list_view.dart';
 import 'package:hola_mundo/views/home_view.dart';
 import 'package:hola_mundo/views/paso_parametros/detalle_screen.dart';
 import 'package:hola_mundo/views/paso_parametros/paso_parametros_screen.dart';
@@ -83,5 +86,28 @@ final GoRouter appRouter = GoRouter(
         return ChisteDetailView(id: id);
       },
     ),
+    // Establecimientos
+    GoRoute(
+      path: '/establecimientos',
+      builder: (context, state) => const EstablecimientosListView(),
+    ),
+    GoRoute(
+      path: '/establecimientos',
+      name: 'establecimientos',
+      builder: (context, state) => const EstablecimientosListView(),
+    ),
+    //!Ruta para editar de un establecimiento
+    GoRoute(
+      path: '/establecimientos/edit/:id',
+      builder: (context, state) {
+        //*se captura el id del establecimiento
+        final id = int.parse(state.pathParameters['id']!);
+        return EstablecimientoEditView(id: id);
+      },
+    ),
+    GoRoute(
+      path: '/establecimientos/create',
+      builder: (context, state) => const EstablecimientoCreateView(),
+),
   ],
 );
