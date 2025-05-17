@@ -13,6 +13,8 @@ import 'package:hola_mundo/views/tarea_pesada/tarea_pesada_view.dart';
 import 'package:hola_mundo/views/list_students/list_students_view.dart';
 import 'package:hola_mundo/views/chiste/chiste_detail_view.dart';
 import 'package:hola_mundo/views/chiste/chiste_list_view.dart';
+import 'package:hola_mundo/views/auth/login_page.dart';
+import 'package:hola_mundo/views/auth/register_page.dart';
 
 final GoRouter appRouter = GoRouter(
   routes: [
@@ -72,7 +74,7 @@ final GoRouter appRouter = GoRouter(
       builder: (context, state) => const TareaPesadaView(),
     ),
     //!Rutas para el manejo de Pokémon
-   // Rutas para el manejo de chistes
+    // Rutas para el manejo de chistes
     GoRoute(
       path: '/chiste',
       name: 'chiste',
@@ -108,6 +110,16 @@ final GoRouter appRouter = GoRouter(
     GoRoute(
       path: '/establecimientos/create',
       builder: (context, state) => const EstablecimientoCreateView(),
-),
+    ),
+    GoRoute(
+      path: '/login',
+      name: 'login',
+      builder: (context, state) => const LoginPage(),
+    ),
+    GoRoute(
+      path: '/register',
+      name: 'register',
+      builder: (context, state) => const RegisterPage(),
+    ),
   ],
 );
